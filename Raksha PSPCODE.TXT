@@ -1,0 +1,93 @@
+#include<stdio.h>
+#include<conio.h>
+#include<math.h>
+void main()
+{
+int En,n,combi,i,j,k,l,row,col,x,y,z,a[100][100];
+clrscr();
+printf("Enter enable state (0 for off and 1 for on)\n");
+scanf("%d",&En);
+ if(En==1)
+  { //sub open
+   printf("Enter the number of inputs:\n");
+   scanf("%d",&n);
+  if(n==0||n==1)
+   printf("Input error, minimum input for decoder to work is 2\n");
+  else
+  {//correct input
+   combi=pow(2,n);
+   printf("Decoder is of the order %d:%d\n",n,combi);
+   row=combi;
+   col=n;
+   x=row;
+ //COMPUTING TRUTH TABLE
+   printf("Truth Table:\n");
+    for(i=0;i<n;i++)
+     printf("A%d\t",i);
+    printf("Output");
+    printf("\n");
+    for(i=0;i<col;i++)
+    { //1
+     j=-1;
+      while(j<row-1)
+      { //2
+       for(k=0;k<(x/2);k++)
+       { //3
+	j=j+1;
+	a[j][i]=0;
+       } //3
+       for(l=k;l<x;l++)
+       { //4
+	j=j+1;
+	a[j][i]=1;
+       } //4
+      } //2
+     x=x/2;
+    } //1
+ //COMPUTING OUTPUT
+  for(i=0;i<row;i++)
+   {
+    y=col-1;
+    a[i][col]=0;
+     for(j=0;j<col;j++)
+      {
+       z=pow(2,y);
+       a[i][col]=a[i][col]+(a[i][j]*z);
+       y=y-1;
+      }
+   }
+ //PRINTING
+ for(i=0;i<row;i++)
+  {
+   for(j=0;j<=col;j++)
+    {
+     if(j==col)
+       printf("Y%d\t",a[i][j]);
+     else
+      printf("%d\t",a[i][j]);
+    }
+    printf("\n");
+  }
+ //EQUATION COMPUTATION
+printf("Equations:\n");
+ for(i=0;i<row;i++)
+  {
+   printf("Y%d=En",i);
+    for(j=0;j<col;j++)
+     {
+      if(a[i][j]==0)
+       printf("*A%d'",j);
+      else
+       printf("*A%d",j);
+     }
+   printf("\n");
+  }
+  }//correct input
+ } //sub close
+ else
+ if(En==0)
+ printf("Enable is 0 so decoder is off");
+ else
+ printf("Enable input error");
+getch();
+}
